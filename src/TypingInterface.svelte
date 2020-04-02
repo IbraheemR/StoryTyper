@@ -15,7 +15,7 @@
   let currentLine = "";
   let nextLine = "";
 
-  controller.subscribeLine(controller => {
+  controller.subscribeLine(() => {
     currentLine = controller.currentLine;
     nextLine = controller.nextLine;
   });

@@ -33,13 +33,36 @@ body {
 	font-family: var(--font);
 }
 
+.element-container {
+	border: var(--border-style);
+	border-radius: var(--border-rounding);
+	
+	padding: 0;
+
+    background-color: var(--border-color);
+}
+
 .element {
-	background-color: var(--background-color);
 	border: var(--border-style);
 	border-radius: var(--border-rounding);
 
 	padding: var(--padding);
+
+	background-color: var(--background-color);
+
 }
+
+.element.button {
+	cursor: pointer;
+}
+
+.element.button:hover {
+	background-color: var(--border-color);
+}
+.element.button.selected {
+	background-color: white;
+	color: black;
+} 
 
 input {
 	font-family: var(--font);

@@ -33,7 +33,16 @@ export default class Controller {
         this.typedText = "";
         this.typedLines = [];
 
+        this.accuracyStats = {
+            correct: 0,
+            total: 0
+        }
+
         this.triggerLineEvent()
+    }
+
+    storyPartString() {
+        return this.story ? `${this.story.name} : ${this.partName}` : ""
     }
 
     updateTypedText(newText) {

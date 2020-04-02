@@ -19,7 +19,7 @@
   }
 </style>
 
-<main class="element">
+<main class="element-container">
   <TypingInterface {controller} />
 
   <Controls {stories} {controller} />

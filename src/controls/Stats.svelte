@@ -3,7 +3,7 @@
 
   let accuracy = 1;
 
-  controller.subscribeChar(controller => {
+  controller.subscribeChar(() => {
     accuracy = controller.accuracy;
   });
 </script>

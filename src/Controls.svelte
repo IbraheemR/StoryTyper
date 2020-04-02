@@ -4,7 +4,7 @@
   import { onMount } from "svelte";
 
   import Stats from "./controls/Stats.svelte";
-  import StorySelect from "./controls/StorySelect.svelte";
+  import StorySelectButton from "./controls/StorySelectButton.svelte";
 
   export let stories;
   export let controller;
@@ -42,10 +42,6 @@
     position: relative;
   }
 
-  .pauseplay:hover:not(.paused) {
-    background-color: var(--border-color);
-  }
-
   .pauseplay.paused {
     fill: var(--border-color);
     background-color: white;
@@ -63,5 +59,5 @@
     <PauseIcon />
 
   </div>
-  <StorySelect {stories} {controller} />
+  <StorySelectButton {stories} {controller} />
 </div>
