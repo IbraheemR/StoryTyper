@@ -1,30 +1,26 @@
 <script>
-	export let name;
+  import Controls from "./Controls.svelte";
+  import TypingInterface from "./TypingInterface.svelte";
+
+  import Controller from "./controller/Controller";
+  import stories from "./controller/stories";
+
+  let controller = new Controller();
 </script>
 
-<main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-</main>
-
 <style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
+  main {
+    width: 100%;
+    max-width: 1000px;
+    margin: 1rem;
+    padding: 0;
 
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
+    background-color: var(--border-color) !important;
+  }
 </style>
+
+<main class="element">
+  <TypingInterface {controller} />
+
+  <Controls {stories} {controller} />
+</main>
