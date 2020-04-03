@@ -18,6 +18,8 @@ export default class Controller {
         // Callback stuff
         this.lineCallbacks = [];
         this.charCallbacks = [];
+        this.notReadyCallbacks = [];
+
 
         this.paused = false;
 
@@ -57,49 +59,65 @@ export default class Controller {
     }
 
     // Getters
+
+    get ready() {
+        return this.story && this.currentLine
+    }
+
     get currentPart() {
-        return this.story.parts[this.partNum]
+        return this.story && this.story.parts[this.partNum]
     }
 
     get partName() {
-        return this.currentPart.name;
+        return this.story && this.currentPart.name;
     }
 
     get lineNum() {
-        return this.typedLines.length
+        return this.story && this.typedLines.length
+    }
+
+    get prevLine() {
+        return this.story && this.currentPart.content[this.lineNum - 1] || "";
     }
 
     get currentLine() {
-        return this.currentPart.content[this.lineNum];
+        return this.story && this.currentPart.content[this.lineNum] || "";
     }
 
     get nextLine() {
-        return this.currentPart.content[this.lineNum + 1];
+        return this.story && this.currentPart.content[this.lineNum + 1] || "";
     }
 
     get accuracy() {
+
         let { total, correct } = this.accuracyStats;
-        total += this.typedText.length;
 
-        for (let [i, char] of this.typedText.split("").entries()) {
-            if (char == this.currentLine[i]) correct++;
+        let cl = this.currentLine;
+
+        if (this.ready) {
+            total += this.typedText.length;
+
+
+            for (let [i, char] of this.typedText.split("").entries()) {
+                if (char == cl[i]) correct++;
+            }
         }
-
         let acc = correct / total
 
-        if (!acc || acc == Infinity) {
-            return 1
-        }
-
-        return acc;
+        return isFinite(acc) ? acc : 1;
     }
 
     // Update funcs, must be added to callback list
     updateTypedTextAccuracy() {
-        this.accuracyStats.total += this.typedText.length;
-        let lastLine = this.typedLines[this.typedLines.length - 1]
-        for (let [i, char] of lastLine.split("").entries()) {
-            if (char == lastLine[i]) this.accuracyStats.correct++;
+        if (this.ready) {
+            this.accuracyStats.total += this.typedText.length;
+            let userPrevLine = this.typedLines[this.typedLines.length - 1]
+
+
+            for (let i = 0; i < Math.max(this.prevLine.length || 0, userPrevLine.length || 0); i++) {
+                if (this.prevLine[i] == userPrevLine[i]) this.accuracyStats.correct++;
+
+            }
         }
     }
 
@@ -112,6 +130,10 @@ export default class Controller {
         this.charCallbacks.push(callback);
     }
 
+    subscribeNotReady(callback) {
+        this.notReadyCallbacks.push(callback);
+    }
+
     triggerLineEvent() {
         this.lineCallbacks.forEach(c => c(this))
 
@@ -121,7 +143,10 @@ export default class Controller {
 
     triggerCharEvent() {
         this.charCallbacks.forEach(c => c(this))
+    }
 
+    triggerNotReadyEvent() {
+        this.notReadyCallbacks.forEach(c => c(this))
     }
 
 

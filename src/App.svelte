@@ -6,6 +6,14 @@
   import stories from "./controller/stories";
 
   let controller = new Controller();
+
+  // trigger svelte updates
+  controller.subscribeLine(() => {
+    controller = controller;
+  });
+  controller.subscribeChar(() => {
+    controller = controller;
+  });
 </script>
 
 <style>

@@ -50,10 +50,12 @@ body {
 
 	background-color: var(--background-color);
 
+	fill:white;
 }
 
 .element.button {
 	cursor: pointer;
+	transition: 200ms all ease;
 }
 
 .element.button:hover {
@@ -62,6 +64,8 @@ body {
 .element.button.selected {
 	background-color: white;
 	color: black;
+
+	fill:white;
 } 
 
 input {

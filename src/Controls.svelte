@@ -1,5 +1,7 @@
 <script>
   import PauseIcon from "carbon-icons-svelte/lib/PauseOutlineFilled32";
+  import Maximize32 from "carbon-icons-svelte/lib/Maximize32";
+  import Minimize32 from "carbon-icons-svelte/lib/Minimize32";
 
   import { onMount } from "svelte";
 
@@ -9,13 +11,7 @@
   export let stories;
   export let controller;
 
-  let pauseplay;
-
-  onMount(() => {
-    pauseplay.onclick = () => {
-      controller.paused = !controller.paused;
-    };
-  });
+  let fullScreen = false;
 </script>
 
 <style>
@@ -24,22 +20,16 @@
 
     display: grid;
 
-    grid-template-columns: 1fr auto 1fr;
+    grid-template-columns: 1fr auto auto 1fr;
   }
 
   .controls > :global(*) {
     text-align: center;
   }
 
-  .pauseplay {
-    fill: white;
-    cursor: pointer;
-
-    transition: 200ms all ease;
-
+  .pauseplay,
+  .fullscreen {
     font-size: 0;
-
-    position: relative;
   }
 
   .pauseplay.paused {
@@ -52,11 +42,38 @@
 <div class="controls">
   <Stats {controller} />
   <div
-    class="pauseplay element"
-    bind:this={pauseplay}
+    class="pauseplay element button"
+    on:click={() => {
+      controller.paused = !controller.paused;
+    }}
     class:paused={controller.paused}>
 
     <PauseIcon />
+
+  </div>
+  <div
+    class="fullscreen element button"
+    on:click={() => {
+      if (window.fullScreen) {
+        document.exitFullscreen().then(() => {
+          ({ fullScreen } = window);
+        });
+      } else {
+        document
+          .querySelector(':root')
+          .requestFullscreen()
+          .then(() => {
+            ({ fullScreen } = window);
+          });
+      }
+    }}
+    class:paused={controller.paused}>
+
+    {#if fullScreen}
+      <Minimize32 />
+    {:else}
+      <Maximize32 />
+    {/if}
 
   </div>
   <StorySelectButton {stories} {controller} />

@@ -6,11 +6,14 @@
   export let stories;
   export let controller;
 
-  let storyName = "Select Story...";
-
-  controller.subscribeLine(() => {
-    storyName = controller.storyPartString();
+  controller.subscribeNotReady(() => {
+    flash = true;
+    setTimeout(() => {
+      flash = false;
+    }, 500);
   });
+
+  let flash;
 
   let open;
 </script>
@@ -41,6 +44,7 @@
 
 <div
   class="control-button element button"
+  class:selected={flash}
   on:click={() => {
     open = true;
   }}>
