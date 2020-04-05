@@ -40,7 +40,13 @@ export default class Controller {
             total: 0
         }
 
-        this.triggerLineEvent()
+        fetch(story.parts_url)
+            .then(data => data.json())
+            .then(json => {
+                this.story.parts = json;
+                this.triggerLineEvent()
+            })
+
     }
 
     storyPartString() {
@@ -61,31 +67,31 @@ export default class Controller {
     // Getters
 
     get ready() {
-        return this.story && this.currentLine
+        return this.story && this.story.ready && this.currentLine
     }
 
     get currentPart() {
-        return this.story && this.story.parts[this.partNum]
+        return this.story && this.story.ready && this.story.parts[this.partNum] || { content: [], name: "" }
     }
 
     get partName() {
-        return this.story && this.currentPart.name;
+        return this.story && this.story.ready && this.currentPart.name;
     }
 
     get lineNum() {
-        return this.story && this.typedLines.length
+        return this.story && this.story.ready && this.typedLines.length
     }
 
     get prevLine() {
-        return this.story && this.currentPart.content[this.lineNum - 1] || "";
+        return this.story && this.story.ready && this.currentPart.content[this.lineNum - 1] || "";
     }
 
     get currentLine() {
-        return this.story && this.currentPart.content[this.lineNum] || "";
+        return this.story && this.story.ready && this.currentPart.content[this.lineNum] || "";
     }
 
     get nextLine() {
-        return this.story && this.currentPart.content[this.lineNum + 1] || "";
+        return this.story && this.story.ready && this.currentPart.content[this.lineNum + 1] || "";
     }
 
     get accuracy() {

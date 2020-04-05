@@ -3,6 +3,11 @@
   export let controller;
 
   let selectedStory = 0;
+
+  stories[0].load().then(() => {
+    console.log("done");
+    stories = stories;
+  });
 </script>
 
 <style>
@@ -51,6 +56,9 @@
   .part .number {
     float: left;
   }
+  .part .length {
+    float: right;
+  }
 </style>
 
 <div class="select-screen element-container">
@@ -62,6 +70,9 @@
         class:selected={selectedStory == si}
         on:click|stopPropagation={() => {
           selectedStory = si;
+          stories[selectedStory].load().then(() => {
+            stories = stories;
+          });
         }}>
         {story.name}
       </div>
@@ -77,17 +88,20 @@
   </div>
 
   <div class="parts">
-    {#each stories[selectedStory].parts as part, pi}
-      <div
-        class="part element button"
-        style="order={stories[selectedStory].parts.length};"
-        on:click={() => {
-          controller.setStory(stories[selectedStory], pi);
-        }}>
-        <span class="number">{pi + 1}</span>
-        <span class="name">{part.name}</span>
-      </div>
-    {/each}
+    {#if stories[selectedStory].ready}
+      {#each stories[selectedStory].parts as part, pi}
+        <div
+          class="part element button"
+          style="order={stories[selectedStory].parts.length};"
+          on:click={() => {
+            controller.setStory(stories[selectedStory], pi);
+          }}>
+          <span class="number">{pi + 1}</span>
+          <span class="name">{part.name}</span>
+          <span class="length">{part.content.length} Lines</span>
+        </div>
+      {/each}
+    {/if}
   </div>
 
 </div>

@@ -6,7 +6,7 @@
   let textInput;
 
   function keydown(e) {
-    if (e.key == "Enter" && controller.story) {
+    if (e.key == "Enter" && controller.ready) {
       controller.submit(textInput);
       textInput = "";
     }
