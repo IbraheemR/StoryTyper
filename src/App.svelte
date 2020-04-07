@@ -1,6 +1,9 @@
 <script>
-  import Controls from "./Controls.svelte";
-  import TypingInterface from "./TypingInterface.svelte";
+  import TypingInterface from "./widgets/TypingInterface.svelte";
+  import Stats from "./widgets/Stats.svelte";
+  import Buttons from "./widgets/Buttons.svelte";
+  import StorySelectButton from "./widgets/StorySelectButton.svelte";
+  import TopTip from "./widgets/TopTip.svelte";
 
   import Controller from "./controller/Controller";
   import stories from "./controller/stories";
@@ -21,14 +24,68 @@
     width: 100%;
     max-width: 1000px;
     margin: 1rem;
-    padding: 0;
 
-    background-color: var(--border-color) !important;
+    display: grid;
+
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-areas:
+      "type type type"
+      "stats buttons tip"
+      "stats story story";
+  }
+
+  main > * {
+    height: 100%;
+    display: flex;
+    align-items: stretch;
+  }
+
+  main > * > :global(*) {
+    flex-grow: 1;
+  }
+
+  .type {
+    grid-area: type;
+  }
+
+  .stats {
+    grid-area: stats;
+  }
+
+  .buttons {
+    grid-area: buttons;
+  }
+
+  .story {
+    grid-area: story;
+  }
+
+  .tip {
+    grid-area: tip;
   }
 </style>
 
 <main class="element-container">
-  <TypingInterface {controller} />
+  <div class="type">
+    <TypingInterface {controller} />
+  </div>
 
-  <Controls {stories} {controller} />
+  <div class="stats">
+    <Stats {controller} />
+
+  </div>
+
+  <div class="buttons">
+    <Buttons {controller} />
+
+  </div>
+
+  <div class="story">
+    <StorySelectButton {stories} {controller} />
+  </div>
+
+  <div class="tip">
+    <TopTip />
+  </div>
+
 </main>

@@ -13,7 +13,6 @@
 <style>
   .select-screen {
     margin: 1rem;
-    padding: 0;
 
     width: 100%;
     max-width: 1100px;
@@ -29,6 +28,10 @@
     gap: 1rem;
 
     grid-template-areas: "stories info" "stories parts";
+
+    text-align: center;
+
+    border-width: 3px;
   }
 
   .stories {

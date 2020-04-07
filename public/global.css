@@ -18,7 +18,7 @@ body {
 	color: var(--text-color);
 	background-color: var(--background-color);
 
-	font-size: 1.1em;
+	font-size: 1.3em;
 }
 
 :root {
@@ -51,6 +51,14 @@ body {
 	background-color: var(--background-color);
 
 	fill:white;
+}
+
+.element.center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	text-align: center;
 }
 
 .element.button {

@@ -19,10 +19,6 @@
 </script>
 
 <style>
-  .control-button {
-    line-height: 32px;
-  }
-
   .select-screen-center {
     display: flex;
     justify-content: center;
@@ -34,7 +30,7 @@
     width: 100%;
     height: 100%;
 
-    background-color: #111a;
+    background-color: #222;
   }
 
   .select-screen-center:not(.open) {
@@ -42,8 +38,15 @@
   }
 </style>
 
+<svelte:window
+  on:keydown={e => {
+    if (open && e.key == 'Escape') {
+      open = false;
+    }
+  }} />
+
 <div
-  class="control-button element button"
+  class="control-button element button center"
   class:selected={flash}
   on:click={() => {
     open = true;
