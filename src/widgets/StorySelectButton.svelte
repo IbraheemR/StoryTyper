@@ -51,7 +51,10 @@
   on:click={() => {
     open = true;
   }}>
-  {controller.storyPartString() || 'Select Story...'}
+  {#if controller.ready}
+    <div class="small">{controller.story.name}</div>
+    {controller.partName}
+  {:else}Select Story...{/if}
 </div>
 
 <div

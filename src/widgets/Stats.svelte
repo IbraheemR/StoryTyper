@@ -12,14 +12,6 @@
   .stats > :last-child {
     flex-grow: 1;
   }
-
-  .stats * {
-    flex-direction: column;
-  }
-
-  .title {
-    font-size: 0.8em;
-  }
 </style>
 
 <div class="stats">
@@ -30,7 +22,7 @@
   </div>
 
   <div class="element center">
-    <div class="title">SPD</div>
+    <div class="small">SPD</div>
     {(controller.accuracy * 100).toFixed(1)}
   </div>
 

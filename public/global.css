@@ -33,6 +33,10 @@ body {
 	font-family: var(--font);
 }
 
+.small {
+    font-size: 0.8em;
+  }
+
 .element-container {
 	border: var(--border-style);
 	border-radius: var(--border-rounding);
@@ -57,6 +61,8 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+
+	flex-direction: column;
 
 	text-align: center;
 }

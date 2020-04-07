@@ -208,7 +208,7 @@
     {
         "name": "Act 1 Scene 2: Another street.",
         "content": [
-            "[Another street.]",
+            "[Another street]",
             "[Enter OTHELLO, IAGO, and Attendants with torches]",
             "IAGO: Though in the trade of war I have slain men,",
             "Yet do I hold it very stuff o' the conscience",
@@ -336,7 +336,7 @@
     {
         "name": "Act 1 Scene 3: A council chamber.",
         "content": [
-            "[A council-chamber.]",
+            "[A council-chamber]",
             "[The DUKE and Senators sitting at a table; Officers attending]",
             "DUKE OF VENICE: There is no composition in these news",
             "That gives them credit.",
@@ -778,7 +778,7 @@
     {
         "name": "Act 2 Scene 1: A Sea-port in Cyprus.",
         "content": [
-            "A Sea-port in Cyprus. An open place near the quay.",
+            "[A Sea-port in Cyprus. An open place near the quay]",
             "[Enter MONTANO and two Gentlemen]",
             "MONTANO: What from the cape can you discern at sea?",
             "First Gentleman: Nothing at all: it is a highwrought flood;",
@@ -1136,7 +1136,7 @@
     {
         "name": "Act 2 Scene 2: A street.",
         "content": [
-            "[A street.]",
+            "[A street]",
             "[Enter a Herald with a proclamation; People following]",
             "Herald: It is Othello's pleasure, our noble and valiant",
             "general, that, upon certain tidings now arrived,",
@@ -1156,7 +1156,7 @@
     {
         "name": "Act 2 Scene 3: A hall in the castle.",
         "content": [
-            "[A hall in the castle.]",
+            "[A hall in the castle]",
             "[Enter OTHELLO, DESDEMONA, CASSIO, and Attendants]",
             "OTHELLO: Good Michael, look you to the guard to-night",
             "Let's teach ourselves that honourable stop,",
@@ -1655,7 +1655,7 @@
     {
         "name": "Act 3 SCene 2: A room in the castle.",
         "content": [
-            "[A room in the castle.]",
+            "[A room in the castle]",
             "[Enter OTHELLO, IAGO, and Gentlemen]",
             "OTHELLO: These letters give, Iago, to the pilot;",
             "And by him do my duties to the senate:",
@@ -2224,7 +2224,7 @@
     {
         "name": "Act 3 Scene 4: Before the castle.",
         "content": [
-            "[Before the castle.]",
+            "[Before the castle]",
             "[Enter DESDEMONA, EMILIA, and Clown]",
             "DESDEMONA: Do you know, sirrah, where Lieutenant Cassio lies?",
             "Clown: I dare not say he lies any where.",
@@ -2465,7 +2465,7 @@
     {
         "name": "Act 4 Scene 1: Cyprus. Before the castle",
         "content": [
-            "[Cyprus. Before the castle.]",
+            "[Cyprus. Before the castle]",
             "[Enter OTHELLO and IAGO]",
             "IAGO: Will you think so?",
             "OTHELLO: Think so, Iago!",
@@ -2799,7 +2799,7 @@
     {
         "name": "Act 4 Scene 2: A room in the castle.",
         "content": [
-            "[A room in the castle.]",
+            "[A room in the castle]",
             "Enter OTHELLO and EMILIA",
             "OTHELLO: You have seen nothing then?",
             "EMILIA: Nor ever heard, nor ever did suspect.",
@@ -3087,7 +3087,7 @@
     {
         "name": "Act 4 Scene 3: Another room In the castle.",
         "content": [
-            "[Another room In the castle.]",
+            "[Another room In the castle]",
             "[Enter OTHELLO, LODOVICO, DESDEMONA, EMILIA and Attendants]",
             "LODOVICO: I do beseech you, sir, trouble yourself no further.",
             "OTHELLO: O, pardon me: 'twill do me good to walk.",
@@ -3210,7 +3210,7 @@
     {
         "name": "Ac t 5 Scene 1: Cyprus. A street.",
         "content": [
-            "[Cyprus. A street.]",
+            "[Cyprus. A street]",
             "[Enter IAGO and RODERIGO]",
             "IAGO: Here, stand behind this bulk; straight will he come:",
             "Wear thy good rapier bare, and put it home:",
@@ -3383,7 +3383,7 @@
         "content": [
             "[A bedchamber in the castle: ",
             "DESDEMONA in bed asleep;",
-            "a light burning.]",
+            "a light burning]",
             "[Enter OTHELLO]",
             "OTHELLO: It is the cause, it is the cause, my soul,--",
             "Let me not name it to you, you chaste stars!--",
