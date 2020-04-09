@@ -7,8 +7,14 @@
 
   function keydown(e) {
     if (e.key == "Enter" && controller.ready) {
-      controller.submit(textInput);
+      if (controller.typedCommand) {
+        controller.processCommand(textInput);
+      } else {
+        controller.submit(textInput);
+      }
+
       textInput = "";
+      controller.updateTypedText("");
     }
 
     if (!controller.ready) {
@@ -25,6 +31,7 @@
   }
 
   function getErrorIndices(storyText, userText) {
+    if (controller.typedCommand) return [];
     let indices = [];
     for (let [i, char] of userText.split("").entries()) {
       if (char != storyText[i]) {
@@ -90,9 +97,9 @@
         <span class="error">{char}</span>
       {:else}{char}{/if}
     {/each}
+    &nbsp;
   </div>
 
   <input type="text" bind:value={textInput} on:input={typed} />
-
-  <div class="next">{controller.nextLine}</div>
+  <div class="next">{controller.nextLine}&nbsp;</div>
 </div>

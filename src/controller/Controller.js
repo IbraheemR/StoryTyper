@@ -1,6 +1,9 @@
 import { writable, derived } from "svelte/store";
 
+import StatsController from "./StatsController";
+
 export default class Controller {
+
     constructor() {
 
         // Story
@@ -10,10 +13,8 @@ export default class Controller {
         this.typedText = "";
         this.typedLines = [];
 
-        this.accuracyStats = {
-            correct: 0,
-            total: 0
-        }
+        // Stats
+        this.stats = new StatsController();
 
         // Callback stuff
         this.lineCallbacks = [];
@@ -21,7 +22,7 @@ export default class Controller {
         this.notReadyCallbacks = [];
 
 
-        this.paused = false;
+        this._paused = false;
 
         // DEBUG
         window.c = this;
@@ -35,10 +36,8 @@ export default class Controller {
         this.typedText = "";
         this.typedLines = [];
 
-        this.accuracyStats = {
-            correct: 0,
-            total: 0
-        }
+        this.stats.reset();
+
 
         fetch(story.parts_url)
             .then(data => data.json())
@@ -70,6 +69,10 @@ export default class Controller {
         return this.story && this.story.ready && this.currentLine
     }
 
+    get typedCommand() {
+        return this.typedText.startsWith(":")
+    }
+
     get currentPart() {
         return this.story && this.story.ready && this.story.parts[this.partNum] || { content: [], name: "" }
     }
@@ -94,36 +97,32 @@ export default class Controller {
         return this.story && this.story.ready && this.currentPart.content[this.lineNum + 1] || "";
     }
 
-    get accuracy() {
-
-        let { total, correct } = this.accuracyStats;
-
-        let cl = this.currentLine;
-
-        if (this.ready) {
-            total += this.typedText.length;
-
-
-            for (let [i, char] of this.typedText.split("").entries()) {
-                if (char == cl[i]) correct++;
-            }
-        }
-        let acc = correct / total
-
-        return isFinite(acc) ? acc : 1;
+    get paused() {
+        return this._paused;
     }
 
-    // Update funcs, must be added to callback list
-    updateTypedTextAccuracy() {
-        if (this.ready) {
-            this.accuracyStats.total += this.typedText.length;
-            let userPrevLine = this.typedLines[this.typedLines.length - 1]
+    set paused(v) {
+        this._paused = v
 
+        if (this._paused) {
+            this.stats.pauseWPMTimer();
+        } else {
+            this.stats.unpauseWPMTimer();
+        }
+    }
 
-            for (let i = 0; i < Math.max(this.prevLine.length || 0, userPrevLine.length || 0); i++) {
-                if (this.prevLine[i] == userPrevLine[i]) this.accuracyStats.correct++;
+    // Command processing
 
+    processCommand(command) {
+        let r = command.match(/:jump ([0-9]+)/i);
+        if (r && r[1]) {
+            let l = r[1];
+
+            if (l < this.currentPart.content.length) {
+                this.typedLines.push(...Array(Number(l)))
+                this.triggerLineEvent()
             }
+
         }
     }
 
@@ -143,12 +142,30 @@ export default class Controller {
     triggerLineEvent() {
         this.lineCallbacks.forEach(c => c(this))
 
-        if (this.typedLines.length > 0)
-            this.updateTypedTextAccuracy();
+        // Update stats
+
+        if (!this.typedCommand) {
+            this.stats.calculateAccuracy(this.typedText, this.prevLine, true);
+            this.stats.calculateWPM(this.typedText, true)
+        }
+
+        console.log(this.stats.wpmData.startTime)
     }
 
     triggerCharEvent() {
         this.charCallbacks.forEach(c => c(this))
+
+        if (!this.typedCommand) {
+            this.paused = false;
+
+            console.log(this.typedText)
+
+            if (this.typedText.length == 1) {
+                this.stats.restartWPMTimer();
+            }
+        }
+
+
     }
 
     triggerNotReadyEvent() {

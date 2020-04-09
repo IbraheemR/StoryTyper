@@ -30,8 +30,8 @@
     grid-template-columns: 1fr auto 1fr;
     grid-template-areas:
       "type type type"
-      "stats buttons tip"
-      "stats story story";
+      "stats buttons story"
+      "stats tip tip";
   }
 
   main > * {

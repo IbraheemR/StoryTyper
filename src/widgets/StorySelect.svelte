@@ -5,7 +5,6 @@
   let selectedStory = 0;
 
   stories[0].load().then(() => {
-    console.log("done");
     stories = stories;
   });
 </script>
