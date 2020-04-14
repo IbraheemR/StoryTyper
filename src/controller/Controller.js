@@ -146,7 +146,7 @@ export default class Controller {
 
         if (!this.typedCommand) {
             this.stats.calculateAccuracy(this.typedText, this.prevLine, true);
-            this.stats.calculateWPM(this.typedText, true)
+            this.stats.calculateWPM(this.typedText, this.prevLine, true)
         }
 
         console.log(this.stats.wpmData.startTime)

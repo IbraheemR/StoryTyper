@@ -69,14 +69,18 @@ export default class {
 
     // Update = true will update accumulated values and cancel any excisting timers
     // TODO: need to subtract errant chars. (Net WPM)
-    calculateWPM(userText, update = false) {
+    calculateWPM(userText, targetText, update = false) {
         let { chars, millis, startTime, extraMillis } = this.wpmData;
 
         if (startTime || extraMillis) {
 
             let now = new Date()
 
-            chars += userText.length
+            for (let i in userText) {
+                if (userText[i] == targetText[i]) {
+                    chars++
+                };
+            }
             millis += now.getTime() - (startTime || now).getTime() + extraMillis;
 
             if (update) {

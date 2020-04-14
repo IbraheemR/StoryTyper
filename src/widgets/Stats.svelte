@@ -3,10 +3,18 @@
 
   let wpm;
 
-  $: wpm = controller.stats.calculateWPM(controller.typedText);
+  // Setting seperate wpm var rather than dynamically updating to reduce figure flickering and make calmer
+
+  $: wpm = controller.stats.calculateWPM(
+    controller.typedText,
+    controller.currentLine
+  );
 
   setInterval(() => {
-    wpm = controller.stats.calculateWPM(controller.typedText);
+    wpm = controller.stats.calculateWPM(
+      controller.typedText,
+      controller.currentLine
+    );
   }, 500);
 </script>
 

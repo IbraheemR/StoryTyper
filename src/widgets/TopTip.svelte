@@ -8,7 +8,8 @@
     "The WPM counter pauses until you start typing the new line.",
     // "Have a story you want to submit? Get in touch below.",
     // "You can paste in a custom story in story selection.",
-    "Use the command ':jump n' to jump to a line."
+    "Use the command ':jump n' to jump to a line.",
+    "WPM counter only counts correct characters. (Net WPM)"
   ];
 
   function newTip() {
@@ -22,10 +23,10 @@
     }
   }
 
-  // onMount(() => {
-  //   newTip();
-  //   setInterval(newTip, 10 * 1000);
-  // });
+  onMount(() => {
+    newTip();
+    setInterval(newTip, 10 * 1000);
+  });
 </script>
 
 <div class="element centre small">Tips: {tips[tipNum]}</div>
