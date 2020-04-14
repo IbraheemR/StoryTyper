@@ -84,7 +84,7 @@
   <div class="info">
     <div class="name">{stories[selectedStory].name}</div>
     {#if stories[selectedStory].author}
-      <div class="author">by {stories[selectedStory].author}</div>
+      <div class="author">by {stories[selectedStory].authorauthor}</div>
     {/if}
 
   </div>

@@ -1,5 +1,5 @@
 class Story {
-    constructor(name, author, parts_url) {
+    constructor(name, parts_url, author) {
         this.name = name;
         this.author = author;
         this.parts_url = parts_url;
@@ -24,8 +24,12 @@ class Story {
 
 export default [
     new Story(
+        "Short Stories Collection",
+        "/stories/short_stories.json"
+    ),
+    new Story(
         "Othello, the Moore of Venice",
-        "William Shakespeare",
-        "/stories/othello.json"
+        "/stories/othello.json",
+        "William Shakespeare"
     )
 ]
