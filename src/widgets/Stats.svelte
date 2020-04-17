@@ -34,7 +34,7 @@
   <div class="element center">
 
     <div class="small">ACC</div>
-    {(controller.stats.calculateAccuracy(controller.typedText, controller.currentLine) * 100).toFixed(1)}
+    {(controller.stats.calculateAccuracy(controller.typedText, controller.currentLine) * 100).toFixed(1)}%
   </div>
 
   <div class="element center">
@@ -43,6 +43,7 @@
   </div>
 
   <div class="element center">
-    {controller.typedLines.length}/{controller.currentPart.content.length}
+    <div class="small">Line</div>
+    {controller.ready ? controller.typedLines.length + 1 : 0}/{controller.currentPart.content.length}
   </div>
 </div>

@@ -4,6 +4,7 @@
   import Buttons from "./widgets/Buttons.svelte";
   import StorySelectButton from "./widgets/StorySelectButton.svelte";
   import TopTip from "./widgets/TopTip.svelte";
+  import Overview from "./widgets/Overview.svelte";
 
   import Controller from "./controller/Controller";
   import stories from "./controller/stories";
@@ -11,10 +12,10 @@
   let controller = new Controller();
 
   // trigger svelte updates
-  controller.subscribeLine(() => {
+  controller.onLineTyped(() => {
     controller = controller;
   });
-  controller.subscribeChar(() => {
+  controller.onCharTyped(() => {
     controller = controller;
   });
 </script>
@@ -89,3 +90,5 @@
   </div>
 
 </main>
+
+<Overview {controller} />

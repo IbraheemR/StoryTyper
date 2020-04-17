@@ -6,7 +6,6 @@
   const tips = [
     // "Hit pause at anytime to get a save code.", // TODO
     "The WPM counter pauses until you start typing the new line.",
-    // "Have a story you want to submit? Get in touch below.",
     // "You can paste in a custom story in story selection.",
     "Use the command ':jump n' to jump to a line.",
     "WPM counter only counts correct characters. (Net WPM)"
@@ -19,7 +18,9 @@
 
       tipNum = Math.floor(Math.random() * tips.length);
 
-      if (tipNum == old) tipNum++; // Not going to bother with infinite checking to get new random.
+      if (tipNum == old) {
+        tipNum = (tipNum + 1) % tips.length;
+      } // Not going to bother with infinite checking to get new random, inefficient for short list
     }
   }
 

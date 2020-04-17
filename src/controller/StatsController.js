@@ -16,12 +16,26 @@ export default class {
             extraMillis: 0
         }
 
-        // TODO: store arrays of stats per line to display graph at end
+        // TODO: store arrays of stats per line to display graph at endll
+    }
+
+    getTypingTimeString() {
+        let { millis } = this.wpmData;
+
+        let secs = (millis / 1000 % 60).toFixed(1).padStart(4, '0')
+        let mins = String(Math.floor(millis / 1000 / 60) % 60).padStart(2, '0')
+        let hours = String(Math.floor(millis / 1000 / 60 / 60)).padStart(2, '0')
+
+        if (hours !== "00") {
+            return `${hours}:${mins}:${secs}`
+        } else {
+            return `${mins}:${secs}`
+        }
     }
 
     // Calculate dynamic accuracy based on user & target text.
     // update=true will write this to the accumulated store.
-    calculateAccuracy(userText, targetText, update = false) {
+    calculateAccuracy(userText = "", targetText = "", update = false) {
 
         let { characters, correct } = this.accuracyData;
 
@@ -37,7 +51,8 @@ export default class {
 
 
         if (update) {
-            this.accuracyData.characters = characters;
+            // For saved stats, errors should occur if chars not typed, therefore use targetTex, unlike above
+            this.accuracyData.characters += targetText.length;
             this.accuracyData.correct = correct
         }
 
@@ -68,8 +83,7 @@ export default class {
     }
 
     // Update = true will update accumulated values and cancel any excisting timers
-    // TODO: need to subtract errant chars. (Net WPM)
-    calculateWPM(userText, targetText, update = false) {
+    calculateWPM(userText = "", targetText = "", update = false) {
         let { chars, millis, startTime, extraMillis } = this.wpmData;
 
         if (startTime || extraMillis) {
@@ -87,7 +101,6 @@ export default class {
                 this.wpmData.chars = chars;
                 this.wpmData.millis = millis;
                 this.wpmData.startTime = null;
-                console.log(this.wpmData.startTime)
                 this.wpmData.extraMillis = 0;
             }
         }

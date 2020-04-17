@@ -1,11 +1,10 @@
 # TODO
 
 ## Controller
-- Start & end part events
-- Half way pause
+- FIXME: accuracy stat issue when entering command
+- add :end command.
 
 ## UI
-- Prompt to move to next part, or finish if end of story, displaying overall stats
 - Allow custom stories
-
-- Display both part average and line avergae stats?
+- Display both part average and line avergae stats
+- Add contact info etc

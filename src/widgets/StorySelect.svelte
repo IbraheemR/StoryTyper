@@ -1,4 +1,6 @@
 <script>
+  import Overlay from "../Overlay.svelte";
+
   export let stories;
   export let controller;
 
@@ -7,6 +9,9 @@
   stories[0].load().then(() => {
     stories = stories;
   });
+
+  export let show = false;
+  export let click = () => {};
 </script>
 
 <style>
@@ -63,47 +68,50 @@
   }
 </style>
 
-<div class="select-screen element-container">
+<Overlay {show} on:click>
 
-  <div class="stories">
-    {#each stories as story, si}
-      <div
-        class="story element button"
-        class:selected={selectedStory == si}
-        on:click|stopPropagation={() => {
-          selectedStory = si;
-          stories[selectedStory].load().then(() => {
-            stories = stories;
-          });
-        }}>
-        {story.name}
-      </div>
-    {/each}
-  </div>
+  <div class="select-screen element-container">
 
-  <div class="info">
-    <div class="name">{stories[selectedStory].name}</div>
-    {#if stories[selectedStory].author}
-      <div class="author">by {stories[selectedStory].authorauthor}</div>
-    {/if}
-
-  </div>
-
-  <div class="parts">
-    {#if stories[selectedStory].ready}
-      {#each stories[selectedStory].parts as part, pi}
+    <div class="stories">
+      {#each stories as story, si}
         <div
-          class="part element button"
-          style="order={stories[selectedStory].parts.length};"
-          on:click={() => {
-            controller.setStory(stories[selectedStory], pi);
+          class="story element button"
+          class:selected={selectedStory == si}
+          on:click|stopPropagation={() => {
+            selectedStory = si;
+            stories[selectedStory].load().then(() => {
+              stories = stories;
+            });
           }}>
-          <span class="number">{pi + 1}</span>
-          <span class="name">{part.name}</span>
-          <span class="length">{part.content.length} Lines</span>
+          {story.name}
         </div>
       {/each}
-    {/if}
-  </div>
+    </div>
 
-</div>
+    <div class="info">
+      <div class="name">{stories[selectedStory].name}</div>
+      {#if stories[selectedStory].author}
+        <div class="author">by {stories[selectedStory].authorauthor}</div>
+      {/if}
+
+    </div>
+
+    <div class="parts">
+      {#if stories[selectedStory].ready}
+        {#each stories[selectedStory].parts as part, pi}
+          <div
+            class="part element button"
+            style="order={stories[selectedStory].parts.length};"
+            on:click={() => {
+              controller.setStory(stories[selectedStory], pi);
+            }}>
+            <span class="number">{pi + 1}</span>
+            <span class="name">{part.name}</span>
+            <span class="length">{part.content.length} Lines</span>
+          </div>
+        {/each}
+      {/if}
+    </div>
+
+  </div>
+</Overlay>

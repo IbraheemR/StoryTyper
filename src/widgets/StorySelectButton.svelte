@@ -1,12 +1,10 @@
 <script>
-  import { onMount } from "svelte";
-
   import StorySelect from "./StorySelect.svelte";
 
   export let stories;
   export let controller;
 
-  controller.subscribeNotReady(() => {
+  controller.onNotReady(() => {
     flash = true;
     setTimeout(() => {
       flash = false;
@@ -15,33 +13,18 @@
 
   let flash;
 
-  let open;
+  let show = false;
+
+  // HACK: adding function to controller to allow acess from every component
+  controller.showSelectScreen = () => {
+    show = true;
+  };
 </script>
-
-<style>
-  .select-screen-center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-
-    background-color: #222;
-  }
-
-  .select-screen-center:not(.open) {
-    display: none;
-  }
-</style>
 
 <svelte:window
   on:keydown={e => {
-    if (open && e.key == 'Escape') {
-      open = false;
+    if (show && e.key == 'Escape') {
+      show = false;
     }
   }} />
 
@@ -49,7 +32,7 @@
   class="control-button element button center"
   class:selected={flash}
   on:click={() => {
-    open = true;
+    show = true;
   }}>
   {#if controller.ready}
     <div class="small">{controller.story.name}</div>
@@ -57,11 +40,10 @@
   {:else}Select Story...{/if}
 </div>
 
-<div
-  class="select-screen-center"
-  class:open
+<StorySelect
+  {stories}
+  {controller}
+  {show}
   on:click={() => {
-    open = false;
-  }}>
-  <StorySelect {stories} {controller} />
-</div>
+    show = false;
+  }} />

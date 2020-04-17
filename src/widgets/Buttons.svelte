@@ -4,6 +4,7 @@
   import Minimize32 from "carbon-icons-svelte/lib/Minimize32";
 
   export let controller;
+  let fullScreen;
 </script>
 
 <style>
@@ -32,9 +33,7 @@
 
   <div
     class="pauseplay element button center"
-    on:click={() => {
-      controller.paused = !controller.paused;
-    }}
+    on:click={() => controller.pause(controller.paused)}
     class:paused={controller.paused}>
 
     <PauseIcon />

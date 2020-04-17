@@ -6,37 +6,47 @@ export default class Controller {
 
     constructor() {
 
-        // Story
+
+        // Stats
+        this.stats = new StatsController();
+
+        // Callback stuff
+        this.notReadyCallbacks = [];
+        this.resetCallbacks = [];
+        this.lineCallbacks = [];
+        this.charCallbacks = [];
+        this.finishCallbacks = [];
+
+        // Reset story 
+        this.reset()
+
+        // DEBUG
+        window.c = this;
+    }
+
+    reset() {
         this.story = undefined;
         this.partNum = 0;
 
         this.typedText = "";
         this.typedLines = [];
 
-        // Stats
-        this.stats = new StatsController();
-
-        // Callback stuff
-        this.lineCallbacks = [];
-        this.charCallbacks = [];
-        this.notReadyCallbacks = [];
+        this.paused = false;
 
 
-        this._paused = false;
-
-        // DEBUG
-        window.c = this;
+        this.triggerResetEvent()
     }
 
     setStory(story, part = 0) {
 
+        this.reset()
+
+        this.stats.reset();
+
         this.story = story
         this.partNum = part
 
-        this.typedText = "";
-        this.typedLines = [];
 
-        this.stats.reset();
 
 
         fetch(story.parts_url)
@@ -45,7 +55,6 @@ export default class Controller {
                 this.story.parts = json;
                 this.triggerLineEvent()
             })
-
     }
 
     storyPartString() {
@@ -59,8 +68,12 @@ export default class Controller {
 
 
     submit(line) {
-        this.typedLines.push(line);
+        this.typedLines[this.lineNum] = line;
         this.triggerLineEvent();
+
+        if (this.lineNum == this.currentPart.content.length) {
+            this.triggerFinishEvent();
+        }
     }
 
     // Getters
@@ -97,18 +110,18 @@ export default class Controller {
         return this.story && this.story.ready && this.currentPart.content[this.lineNum + 1] || "";
     }
 
-    get paused() {
-        return this._paused;
-    }
+    pause(state = true) {
+        this.paused = state
 
-    set paused(v) {
-        this._paused = v
-
-        if (this._paused) {
+        if (this.paused) {
             this.stats.pauseWPMTimer();
         } else {
             this.stats.unpauseWPMTimer();
         }
+    }
+
+    unpause() {
+        this.pause(false)
     }
 
     // Command processing
@@ -118,8 +131,8 @@ export default class Controller {
         if (r && r[1]) {
             let l = r[1];
 
-            if (l < this.currentPart.content.length) {
-                this.typedLines.push(...Array(Number(l)))
+            if (l < this.currentPart.content.length && l > this.typedLines.length + 1) {
+                this.typedLines.push(...Array(Math.max(Number(l) - this.typedLines.length - 1, 0)))
                 this.triggerLineEvent()
             }
 
@@ -127,16 +140,34 @@ export default class Controller {
     }
 
     // Callback stuff
-    subscribeLine(callback) {
+    onNotReady(callback) {
+        this.notReadyCallbacks.push(callback);
+    }
+
+    onReset(callback) {
+        this.resetCallbacks.push(callback);
+    }
+
+    onLineTyped(callback) {
         this.lineCallbacks.push(callback);
     }
 
-    subscribeChar(callback) {
+    onCharTyped(callback) {
         this.charCallbacks.push(callback);
     }
 
-    subscribeNotReady(callback) {
-        this.notReadyCallbacks.push(callback);
+
+
+    onFinish(callback) {
+        this.finishCallbacks.push(callback);
+    }
+
+    triggerNotReadyEvent() {
+        this.notReadyCallbacks.forEach(c => c(this))
+    }
+
+    triggerResetEvent() {
+        this.resetCallbacks.forEach(c => c(this))
     }
 
     triggerLineEvent() {
@@ -148,17 +179,13 @@ export default class Controller {
             this.stats.calculateAccuracy(this.typedText, this.prevLine, true);
             this.stats.calculateWPM(this.typedText, this.prevLine, true)
         }
-
-        console.log(this.stats.wpmData.startTime)
     }
 
     triggerCharEvent() {
         this.charCallbacks.forEach(c => c(this))
 
         if (!this.typedCommand) {
-            this.paused = false;
-
-            console.log(this.typedText)
+            this.unpause()
 
             if (this.typedText.length == 1) {
                 this.stats.restartWPMTimer();
@@ -168,9 +195,9 @@ export default class Controller {
 
     }
 
-    triggerNotReadyEvent() {
-        this.notReadyCallbacks.forEach(c => c(this))
+
+    triggerFinishEvent() {
+        this.finishCallbacks.forEach(c => c(this))
+        this.pause()
     }
-
-
 }

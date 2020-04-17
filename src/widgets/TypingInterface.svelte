@@ -3,6 +3,10 @@
 
   export let controller = {};
 
+  controller.onReset(() => {
+    textInput = "";
+  });
+
   let textInput;
 
   function keydown(e) {
